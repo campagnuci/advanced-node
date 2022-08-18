@@ -5,26 +5,26 @@ import { getRepository, Repository, getConnection } from 'typeorm'
 import { makeFakeDb } from '@/tests/infra/postgres/mocks'
 
 describe('PSQL UserAccount Repository', () => {
+  let sut: PgUserAccountRepository
+  let pgUserRepo: Repository<PgUser>
+  let backup: IBackup
+
+  beforeAll(async () => {
+    const db = await makeFakeDb([PgUser])
+    backup = db.backup()
+    pgUserRepo = getRepository(PgUser)
+  })
+
+  afterAll(async () => {
+    await getConnection().close()
+  })
+
+  beforeEach(() => {
+    backup.restore()
+    sut = new PgUserAccountRepository()
+  })
+
   describe('load()', () => {
-    let sut: PgUserAccountRepository
-    let pgUserRepo: Repository<PgUser>
-    let backup: IBackup
-
-    beforeAll(async () => {
-      const db = await makeFakeDb([PgUser])
-      backup = db.backup()
-      pgUserRepo = getRepository(PgUser)
-    })
-
-    afterAll(async () => {
-      await getConnection().close()
-    })
-
-    beforeEach(() => {
-      backup.restore()
-      sut = new PgUserAccountRepository()
-    })
-
     test('should return an account if email exists', async () => {
       await pgUserRepo.save({ email: 'existing_email' })
       const account = await sut.load({ email: 'existing_email' })
@@ -34,6 +34,18 @@ describe('PSQL UserAccount Repository', () => {
     test('should return undefined if email does not exist', async () => {
       const account = await sut.load({ email: 'new_email' })
       expect(account).toBeUndefined()
+    })
+  })
+
+  describe('saveWithFacebook()', () => {
+    test('should create an account if id is undefined', async () => {
+      await sut.saveWithFacebook({
+        email: 'any_email',
+        name: 'any_name',
+        facebookId: 'any_fb_id'
+      })
+      const user = await pgUserRepo.findOne({ email: 'any_email' })
+      expect(user?.id).toBe(1)
     })
   })
 })
