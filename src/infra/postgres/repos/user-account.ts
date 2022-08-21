@@ -11,8 +11,8 @@ type FacebookSaveResult = SaveFacebookAccountRepository.Result
 export class PgUserAccountRepository implements LoadUserAccountRepository, SaveFacebookAccountRepository {
   private readonly pgUserRepo = getRepository(PgUser)
 
-  async load (params: LoadParams): Promise<LoadResult> {
-    const user = await this.pgUserRepo.findOne({ email: params.email })
+  async load ({ email }: LoadParams): Promise<LoadResult> {
+    const user = await this.pgUserRepo.findOne({ email })
     if (user !== undefined) {
       return {
         id: user?.id.toString(),
