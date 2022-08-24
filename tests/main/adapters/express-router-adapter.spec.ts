@@ -11,7 +11,7 @@ describe('Express Router Adapter', () => {
   let response: Response
   let next: NextFunction
 
-  beforeEach(() => {
+  beforeAll(() => {
     request = getMockReq({ body: { any: 'any_data' } })
     response = getMockRes().res
     next = getMockRes().next
@@ -20,6 +20,9 @@ describe('Express Router Adapter', () => {
       statusCode: 200,
       data: { content: 'any_content' }
     })
+  })
+
+  beforeEach(() => {
     sut = adaptExpressRoute(controller)
   })
 
