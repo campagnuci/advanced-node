@@ -1,9 +1,5 @@
-import { HttpResponse } from '@/application/helpers'
+import { Middleware } from '@/application/middlewares'
 import { RequestHandler } from 'express'
-
-export interface Middleware {
-  handle: (httpRequest: any) => Promise<HttpResponse>
-}
 
 type Adapter = (middleware: Middleware) => RequestHandler
 
@@ -16,7 +12,7 @@ export const adaptExpressMiddleware: Adapter = (middleware) => {
       request.locals = { ...request.locals, ...Object.fromEntries(entries) }
       next()
     } else {
-      response.status(statusCode).json(data)
+      response.status(statusCode).json({ error: data.message })
     }
   }
 }

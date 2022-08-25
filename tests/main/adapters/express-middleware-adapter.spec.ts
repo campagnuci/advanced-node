@@ -1,4 +1,5 @@
-import { adaptExpressMiddleware, Middleware } from '@/main/adapters/'
+import { Middleware } from '@/application/middlewares'
+import { adaptExpressMiddleware } from '@/main/adapters/'
 import { getMockReq, getMockRes } from '@jest-mock/express'
 import { NextFunction, Request, Response, RequestHandler } from 'express'
 import { mock, MockProxy } from 'jest-mock-extended'
@@ -46,7 +47,7 @@ describe('ExpressMiddleware Adapter', () => {
   test('should respond with correct error and statusCode', async () => {
     middleware.handle.mockResolvedValueOnce({
       statusCode: 500,
-      data: { error: 'any_error' }
+      data: new Error('any_error')
     })
     await sut(request, response, next)
     expect(response.status).toHaveBeenCalledWith(500)
