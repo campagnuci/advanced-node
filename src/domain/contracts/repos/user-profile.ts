@@ -9,3 +9,15 @@ export namespace SaveUserPicture {
 
   export type Result = Promise<void>
 }
+
+export interface LoadUserProfile {
+  load: (params: LoadUserProfile.Params) => LoadUserProfile.Result
+}
+
+export namespace LoadUserProfile {
+  export type Params = {
+    id: string
+  }
+
+  export type Result = Promise<void>
+}
