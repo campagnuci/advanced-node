@@ -4,6 +4,7 @@ export interface SaveUserPicture {
 
 export namespace SaveUserPicture {
   export type Params = {
+    id: string
     imageUrl?: string
     initials?: string
   }
