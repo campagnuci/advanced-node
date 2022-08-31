@@ -5,13 +5,14 @@ export interface SaveUserPicture {
 export namespace SaveUserPicture {
   export type Params = {
     imageUrl?: string
+    initials?: string
   }
 
   export type Result = Promise<void>
 }
 
 export interface LoadUserProfile {
-  load: (params: LoadUserProfile.Params) => LoadUserProfile.Result
+  load: (params: LoadUserProfile.Params) => Promise<LoadUserProfile.Result>
 }
 
 export namespace LoadUserProfile {
@@ -19,5 +20,7 @@ export namespace LoadUserProfile {
     id: string
   }
 
-  export type Result = Promise<void>
+  export type Result = {
+    name?: string
+  }
 }
