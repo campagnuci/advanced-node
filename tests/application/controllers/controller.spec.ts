@@ -3,8 +3,6 @@ import { ServerError } from '@/application/errors'
 import { HttpResponse } from '@/application/helpers'
 import { ValidationComposite } from '@/application/validation'
 
-import { mocked } from 'ts-jest/utils'
-
 jest.mock('@/application/validation/composite')
 
 class ControllerStub extends Controller {
@@ -33,7 +31,7 @@ describe('Controller', () => {
     const ValidationCompositeSpy = jest.fn().mockImplementationOnce(() => ({
       validate: jest.fn().mockReturnValueOnce(error)
     }))
-    mocked(ValidationComposite).mockImplementationOnce(ValidationCompositeSpy)
+    jest.mocked(ValidationComposite).mockImplementationOnce(ValidationCompositeSpy)
 
     const httpResponse = await sut.handle('any_value')
 
