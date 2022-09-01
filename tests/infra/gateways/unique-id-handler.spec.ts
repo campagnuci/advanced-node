@@ -1,4 +1,4 @@
-import { UniqueId } from '@/infra/crypto'
+import { UniqueId } from '@/infra/gateways'
 
 describe('UniqueId Handler', () => {
   let sut: UniqueId
