@@ -4,7 +4,8 @@ import { UserProfile } from '@/domain/entities'
 
 type Setup = (fileStorage: UploadFile, crypto: UUIDGenerator, userProfileRepo: SaveUserPicture & LoadUserProfile) => ChangeProfilePicture
 type Input = { id: string, file?: Buffer }
-export type ChangeProfilePicture = (input: Input) => Promise<void>
+type Output = { imageUrl?: string, initials?: string }
+export type ChangeProfilePicture = (input: Input) => Promise<Output>
 
 export const setupChangeProfilePicture: Setup = (fileStorage, crypto, userProfileRepo) => async ({ id, file }) => {
   const data: { imageUrl?: string, name?: string } = {}
@@ -16,4 +17,5 @@ export const setupChangeProfilePicture: Setup = (fileStorage, crypto, userProfil
   const userProfile = new UserProfile(id)
   userProfile.setPicture(data)
   await userProfileRepo.savePicture(userProfile)
+  return userProfile
 }
