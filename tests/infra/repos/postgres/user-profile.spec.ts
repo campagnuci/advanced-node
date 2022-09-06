@@ -39,5 +39,10 @@ describe('PSQL UserProfile Repository', () => {
       const userProfile = await sut.load({ id: id.toString() })
       expect(userProfile?.name).toBe('any_name')
     })
+
+    test('should return undefined if user not found', async () => {
+      const userProfile = await sut.load({ id: '1' })
+      expect(userProfile).toBeUndefined()
+    })
   })
 })
