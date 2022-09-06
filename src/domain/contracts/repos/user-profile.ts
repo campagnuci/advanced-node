@@ -1,5 +1,5 @@
 export interface SaveUserPicture {
-  savePicture: (params: SaveUserPicture.Params) => Promise<SaveUserPicture.Result>
+  savePicture: (params: SaveUserPicture.Params) => Promise<void>
 }
 
 export namespace SaveUserPicture {
@@ -8,8 +8,6 @@ export namespace SaveUserPicture {
     imageUrl?: string
     initials?: string
   }
-
-  export type Result = Promise<void>
 }
 
 export interface LoadUserProfile {

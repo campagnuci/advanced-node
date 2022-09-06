@@ -62,7 +62,7 @@ describe('PSQL UserAccount Repository', () => {
         facebookId: 'new_fb_id'
       })
       const user = await pgUserRepo.findOne({ id: 1 })
-      expect(user).toEqual({
+      expect(user).toMatchObject({
         id: 1,
         email: 'any_email',
         name: 'new_name',
