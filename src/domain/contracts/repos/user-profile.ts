@@ -19,7 +19,5 @@ export namespace LoadUserProfile {
     id: string
   }
 
-  export type Result = {
-    name?: string
-  }
+  export type Result = { name?: string } | undefined
 }
