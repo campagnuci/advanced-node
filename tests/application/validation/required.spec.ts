@@ -1,4 +1,4 @@
-import { Required, RequiredString } from '@/application/validation'
+import { Required, RequiredString, RequiredBuffer } from '@/application/validation'
 import { RequiredFieldError } from '@/application/errors'
 
 describe('Required', () => {
@@ -17,7 +17,7 @@ describe('Required', () => {
   test('should return undefined if value is not empty', () => {
     const sut = new Required('any_value', 'any_field')
     const error = sut.validate()
-    expect(error).toBe(undefined)
+    expect(error).toBeUndefined()
   })
 })
 
@@ -36,6 +36,24 @@ describe('RequiredString', () => {
   test('should return undefined if value is not empty', () => {
     const sut = new RequiredString('any_value', 'any_field')
     const error = sut.validate()
-    expect(error).toBe(undefined)
+    expect(error).toBeUndefined()
+  })
+})
+describe('RequiredBuffer', () => {
+  test('should extend Required', () => {
+    const sut = new RequiredString('')
+    expect(sut).toBeInstanceOf(Required)
+  })
+
+  test('should return error if value is empty', () => {
+    const sut = new RequiredBuffer(Buffer.from(''))
+    const error = sut.validate()
+    expect(error).toEqual(new RequiredFieldError())
+  })
+
+  test('should return undefined if value is not empty', () => {
+    const sut = new RequiredBuffer(Buffer.from('any_buffer'))
+    const error = sut.validate()
+    expect(error).toBeUndefined()
   })
 })
